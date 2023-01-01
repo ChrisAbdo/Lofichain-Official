@@ -2,19 +2,18 @@ import Head from 'next/head';
 import Image from 'next/image';
 import audio from '../public/audio.json';
 import Balancer from 'react-wrap-balancer';
-import { motion } from 'framer-motion';
-
+import { motion, AnimatePresence } from 'framer-motion';
 import { Player } from '@lottiefiles/react-lottie-player';
 
 const Home = () => {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-2">
       <Head>
-        <title>Create Next App</title>
+        <title>Lofichain Radio</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="hero">
+      <div className="hero mb-12">
         <div className="hero-content flex-col lg:flex-row-reverse ">
           <Player
             autoplay
@@ -47,58 +46,72 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="mt-6 flex max-w-4xl flex-wrap items-center justify-around sm:w-full">
-        <a
-          href="https://nextjs.org/docs"
-          className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
+      <div className="flex flex-col items-center justify-between w-full flex-1 px-20 text-center md:flex-row">
+        <motion.div
+          className="card w-96 bg-base-100 shadow-xl border border-[#2a2a2a] hover:bg-[#1a1a1a] card1"
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.5 }}
         >
-          <h3 className="text-2xl font-bold">Documentation &rarr;</h3>
-          <p className="mt-4 text-xl">
-            Find in-depth information about Next.js features and its API.
-          </p>
-        </a>
+          <figure className="px-10 pt-10">
+            <img
+              src="/upload.png"
+              alt="Shoes"
+              className="rounded-xl w-64 h-72"
+            />
+          </figure>
+          <div className="card-body items-center text-center">
+            <h2 className="card-title">Upload a beat!</h2>
+            <p>If a dog chews shoes whose shoes does he choose?</p>
+          </div>
+        </motion.div>
+        <motion.div
+          className="card  w-96 bg-base-100 shadow-xl border border-[#2a2a2a] hover:bg-[#1a1a1a] card1"
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <figure className="px-10 pt-10">
+            <img
+              src="/listen.png"
+              alt="Shoes"
+              className="rounded-xl w-64 h-72"
+            />
+          </figure>
+          <div className="card-body items-center text-center">
+            <h2 className="card-title">Listen to songs!</h2>
+            <p>If a dog chews shoes whose shoes does he choose?</p>
+          </div>
+        </motion.div>
 
-        <a
-          href="https://nextjs.org/learn"
-          className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-        >
-          <h3 className="text-2xl font-bold">Learn &rarr;</h3>
-          <p className="mt-4 text-xl">
-            Learn about Next.js in an interactive course with quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://github.com/vercel/next.js/tree/canary/examples"
-          className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-        >
-          <h3 className="text-2xl font-bold">Examples &rarr;</h3>
-          <p className="mt-4 text-xl">
-            Discover and deploy boilerplate example Next.js projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-        >
-          <h3 className="text-2xl font-bold">Deploy &rarr;</h3>
-          <p className="mt-4 text-xl">
-            Instantly deploy your Next.js site to a public URL with Vercel.
-          </p>
-        </a>
+        <AnimatePresence>
+          <motion.div
+            className="card w-96 bg-base-100 shadow-xl border border-[#2a2a2a] hover:bg-[#1a1a1a] card1"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <figure className="px-10 pt-10">
+              <img
+                src="/earn.png"
+                alt="Shoes"
+                className="rounded-xl w-64 h-72"
+              />
+            </figure>
+            <div className="card-body items-center text-center">
+              <h2 className="card-title">Participate to earn!</h2>
+              <p>If a dog chews shoes whose shoes does he choose?</p>
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
 
+      <br />
+
       <footer className="flex h-24 w-full items-center justify-center border-t">
-        <a
-          className="flex items-center justify-center gap-2"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-        </a>
+        <h1 className="flex items-center justify-center gap-2">
+          Powered by Polygon & Thirdweb
+        </h1>
       </footer>
     </div>
   );
