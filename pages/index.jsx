@@ -13,13 +13,14 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <motion.div
-        initial={{ y: -300, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-      >
-        <div className="hero">
-          <div className="hero-content flex-col lg:flex-row-reverse ">
-            <Lottie loop animationData={audio} play style={{ width: 300 }} />
+      <div className="hero">
+        <div className="hero-content flex-col lg:flex-row-reverse ">
+          <Lottie loop animationData={audio} play style={{ width: 300 }} />
+
+          <motion.div
+            initial={{ y: -300, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+          >
             <div>
               <h1 className="text-7xl font-bold">
                 <span className="text-[#50e3c2]">Create.</span>
@@ -36,9 +37,9 @@ const Home = () => {
               </p>
               <button className="btn btn-primary">Get Started</button>
             </div>
-          </div>
+          </motion.div>
         </div>
-      </motion.div>
+      </div>
 
       <div className="mt-6 flex max-w-4xl flex-wrap items-center justify-around sm:w-full">
         <a
