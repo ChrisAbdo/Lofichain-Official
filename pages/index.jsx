@@ -1,9 +1,10 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import Lottie from 'react-lottie-player';
 import audio from '../public/audio.json';
 import Balancer from 'react-wrap-balancer';
 import { motion } from 'framer-motion';
+
+import { Player } from '@lottiefiles/react-lottie-player';
 
 const Home = () => {
   return (
@@ -15,7 +16,12 @@ const Home = () => {
 
       <div className="hero">
         <div className="hero-content flex-col lg:flex-row-reverse ">
-          <Lottie loop animationData={audio} play style={{ width: 300 }} />
+          <Player
+            autoplay
+            loop
+            src={audio}
+            style={{ height: '300px', width: '300px' }}
+          ></Player>
 
           <motion.div
             initial={{ y: -300, opacity: 0 }}

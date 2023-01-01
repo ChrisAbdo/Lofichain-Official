@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@lottiefiles/react-lottie-player": "^3.5.0",
     "@thirdweb-dev/react": "^3.6.8",
     "@thirdweb-dev/sdk": "^3.6.8",
     "daisyui": "^2.46.0",
