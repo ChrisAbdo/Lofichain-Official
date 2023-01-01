@@ -67,7 +67,7 @@ const Home = () => {
           </figure>
           <div className="card-body items-center text-center">
             <h2 className="card-title">Upload a beat!</h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
+            <p>Are you a producer? This one's for you!</p>
           </div>
         </motion.div>
         <motion.div
@@ -89,8 +89,8 @@ const Home = () => {
             />
           </figure>
           <div className="card-body items-center text-center">
-            <h2 className="card-title">Listen to songs!</h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
+            <h2 className="card-title">Listen to beats!</h2>
+            <p>Who doesn't love some nice lofi beats?</p>
           </div>
         </motion.div>
 
@@ -115,7 +115,7 @@ const Home = () => {
             </figure>
             <div className="card-body items-center text-center">
               <h2 className="card-title">Participate to earn!</h2>
-              <p>If a dog chews shoes whose shoes does he choose?</p>
+              <p>Algorthmic Rewarding!</p>
             </div>
           </motion.div>
         </AnimatePresence>

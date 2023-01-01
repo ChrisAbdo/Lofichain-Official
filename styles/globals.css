@@ -9,3 +9,13 @@
   .card1:hover {
     @apply bg-black;
   }
+
+  .alert1 {
+    @apply transition-colors duration-500;
+  }
+  
+  .alert1:hover {
+    @apply bg-[#1f1f1f];
+  }
+
+  
