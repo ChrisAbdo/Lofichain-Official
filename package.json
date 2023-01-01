@@ -12,7 +12,9 @@
     "ethers": "^5.7.2",
     "next": "latest",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-lottie-player": "^1.5.4",
+    "react-wrap-balancer": "^0.2.4"
   },
   "devDependencies": {
     "@types/node": "18.11.3",

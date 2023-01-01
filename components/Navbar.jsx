@@ -1,19 +1,8 @@
-import {
-  useNetworkMismatch,
-  useAddress,
-  ConnectWallet,
-  useNetwork,
-} from '@thirdweb-dev/react';
-
-const CHAIN_ID = 80001;
+import { ConnectWallet } from '@thirdweb-dev/react';
 
 const Navbar = () => {
-  const address = useAddress();
-  const isOnWrongNetwork = useNetworkMismatch();
-  const [, switchNetwork] = useNetwork();
-
   return (
-    <div className="navbar bg-base-100 text-white">
+    <div className="navbar text-white border-b border-[#2a2a2a] sticky top-0 z-50 bg-black">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -34,7 +23,7 @@ const Navbar = () => {
           </label>
           <ul
             tabIndex={0}
-            className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+            className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 border-b border-r border-[#2a2a2a]"
           >
             <li>
               <a>Item 1</a>
