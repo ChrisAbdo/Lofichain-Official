@@ -49,9 +49,14 @@ const Home = () => {
       <div className="flex flex-col items-center justify-between w-full flex-1 px-20 text-center md:flex-row">
         <motion.div
           className="card w-96 bg-base-100 shadow-xl border border-[#2a2a2a] hover:bg-[#1a1a1a] card1"
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
           transition={{ duration: 0.5 }}
+          variants={{
+            visible: { opacity: 1, scale: 1 },
+            hidden: { opacity: 0, scale: 0 },
+          }}
         >
           <figure className="px-10 pt-10">
             <img
@@ -66,10 +71,15 @@ const Home = () => {
           </div>
         </motion.div>
         <motion.div
-          className="card  w-96 bg-base-100 shadow-xl border border-[#2a2a2a] hover:bg-[#1a1a1a] card1"
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
+          className="card w-96 bg-base-100 shadow-xl border border-[#2a2a2a] hover:bg-[#1a1a1a] card1"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
           transition={{ duration: 0.5 }}
+          variants={{
+            visible: { opacity: 1, scale: 1 },
+            hidden: { opacity: 0, scale: 0 },
+          }}
         >
           <figure className="px-10 pt-10">
             <img
@@ -87,9 +97,14 @@ const Home = () => {
         <AnimatePresence>
           <motion.div
             className="card w-96 bg-base-100 shadow-xl border border-[#2a2a2a] hover:bg-[#1a1a1a] card1"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
             transition={{ duration: 0.5 }}
+            variants={{
+              visible: { opacity: 1, scale: 1 },
+              hidden: { opacity: 0, scale: 0 },
+            }}
           >
             <figure className="px-10 pt-10">
               <img
