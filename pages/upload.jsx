@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import Web3 from 'web3';
-import Radio from '../backend/build/contracts/Radio.json';
-import NFT from '../backend/build/contracts/NFT.json';
+import Radio from '../smart-contracts/build/contracts/Radio.json';
+import NFT from '../smart-contracts/build/contracts/NFT.json';
 
 const upload = () => {
   const [account, setAccount] = useState('');
