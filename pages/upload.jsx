@@ -72,6 +72,10 @@ const upload = () => {
       const url = `https://ipfs.io/ipfs/${added.path}`;
       console.log(url);
       setCoverImage(url);
+      updateFormInput({
+        ...formInput,
+        coverImage: url,
+      }); // update form input with cover image URL
     } catch (error) {
       console.log('Error uploading file: ', error);
     }
@@ -163,52 +167,75 @@ const upload = () => {
   }
 
   return (
-    <div className="h-screen">
-      <input
-        class="block w-full text-sm text-black bg-gray-50  border border-black cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-100 dark:border-gray-100 dark:placeholder-gray-400"
-        id="file_input"
-        type="file"
-        onChange={onChange}
-        required
-      />
-      <input
-        type="text"
-        placeholder="Stem Title"
-        className="input border-black"
-        onChange={(e) =>
-          updateFormInput({ ...formInput, name: e.target.value })
-        }
-      />
-      <label htmlFor="description" className="text-black">
-        Cover Image
-      </label>
-      <input
-        class="block w-full text-sm text-black bg-gray-50  border border-black cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-100 dark:border-gray-100 dark:placeholder-gray-400"
-        id="file_input"
-        type="file"
-        onChange={createCoverImage}
-        required
-      />
-      {/* display the coverimage url */}
-      {coverImage && <h1 className="text-white">{coverImage}</h1>}
+    <div className="flex flex-col items-center justify-center w-full h-full p-12">
+      <div className="card w-96 shadow-xl border border-[#2a2a2a]">
+        <h1 className="text-3xl font-bold text-center">Upload a Beat</h1>
 
-      <input
-        type="text"
-        placeholder="Stem Title"
-        className="input border-black"
-        onChange={(e) =>
-          updateFormInput({ ...formInput, coverImage: e.target.value })
-        }
-      />
-      <div
-        onClick={listNFTForSale}
-        className="relative inline-block px-4 py-2  group cursor-pointer"
-      >
-        <span className="absolute inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-[#6AB313] group-hover:-translate-x-0 group-hover:-translate-y-0 border-black border-[2px]"></span>
-        <span className="absolute inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-[#6AB313]"></span>
-        <span className="relative text-black group-hover:text-black text-center flex flex-col">
-          Create Stem
-        </span>
+        <figure className="px-10 pt-10">
+          <div className="form-control w-full max-w-xs">
+            <label className="label">
+              <span className="label-text">Pick a beat</span>
+              <span className="label-text-alt">CURRENTLY MP3 ONLY</span>
+            </label>
+            <input
+              type="file"
+              className="file-input file-input-bordered w-full max-w-xs"
+              accept=".mp3"
+              onChange={onChange}
+            />
+          </div>
+        </figure>
+        <div className="card-body items-center text-center">
+          <div className="form-control w-full max-w-xs">
+            <label className="label">
+              <span className="label-text">Enter a title for your beat</span>
+            </label>
+            <input
+              type="text"
+              placeholder="Type here"
+              className="input input-bordered w-full max-w-xs"
+              onChange={(e) =>
+                updateFormInput({ ...formInput, name: e.target.value })
+              }
+            />
+          </div>
+
+          {coverImage ? (
+            <div className="form-control w-full max-w-xs">
+              <label className="label">
+                <span className="label-text">Choose a cover image</span>
+                <span className="label-text-alt">400x400 Recommended</span>
+              </label>
+              <input
+                type="text"
+                placeholder="Stem Title"
+                className="input input-bordered w-full"
+                value={coverImage}
+                // onChange={(e) =>
+                //   updateFormInput({ ...formInput, coverImage: coverImage })
+                // }
+              />
+            </div>
+          ) : (
+            <div className="form-control w-full max-w-xs">
+              <label className="label">
+                <span className="label-text">Choose a cover image</span>
+                <span className="label-text-alt">400x400 Recommended</span>
+              </label>
+              <input
+                onChange={createCoverImage}
+                type="file"
+                className="file-input file-input-bordered w-full max-w-xs"
+              />
+            </div>
+          )}
+
+          <div className="card-actions">
+            <button onClick={listNFTForSale} className="btn btn-primary">
+              Buy Now
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -71,6 +71,8 @@ const Alert = () => {
               <button className="btn btn-primary">
                 <Rewind />
               </button>
+
+              {/* Play Button */}
               <button className="btn btn-primary">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
