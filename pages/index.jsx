@@ -40,7 +40,9 @@ const Home = () => {
                   creating and listening
                 </Balancer>
               </p>
-              <button className="btn btn-primary">Get Started</button>
+              <a href="/radio" className="btn btn-primary">
+                Get Started
+              </a>
             </div>
           </motion.div>
         </div>

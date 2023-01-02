@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
+
 import { motion, AnimatePresence } from 'framer-motion';
 
 import Rewind from '../icons/Rewind';
@@ -14,40 +15,38 @@ const Alert = () => {
 
   return (
     <div>
-      <AnimatePresence>
-        {isOpen ? (
-          <motion.div
-            initial={{ y: -100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -100, opacity: 0 }}
-            className="alert shadow-lg border-b border-[#2a2a2a] alert1"
-          >
-            <Link href="/upload">
-              <div>
-                <span>
-                  Hey there! Want to upload your own beats? Check out the{' '}
-                  <span className="link"> upload page!</span>
-                </span>
-              </div>
-            </Link>
+      {isOpen ? (
+        <motion.div
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: -100, opacity: 0 }}
+          className="alert shadow-lg border-b border-[#2a2a2a] alert1"
+        >
+          <Link href="/upload">
+            <div>
+              <span>
+                Hey there! Want to upload your own beats? Check out the{' '}
+                <span className="link"> upload page!</span>
+              </span>
+            </div>
+          </Link>
 
-            <div className="flex-none">
-              <button onClick={() => setIsOpen(false)} className="btn btn-sm">
-                <Eye />
-              </button>
-            </div>
-          </motion.div>
-        ) : (
-          <div className="alert shadow-lg bg-black">
-            <div />
-            <div className="flex-none">
-              <button onClick={() => setIsOpen(true)} className="btn btn-sm">
-                <Eyeslash />
-              </button>
-            </div>
+          <div className="flex-none">
+            <button onClick={() => setIsOpen(false)} className="btn btn-sm">
+              <Eye />
+            </button>
           </div>
-        )}
-      </AnimatePresence>
+        </motion.div>
+      ) : (
+        <div className="alert shadow-lg bg-black">
+          <div />
+          <div className="flex-none">
+            <button onClick={() => setIsOpen(true)} className="btn btn-sm">
+              <Eyeslash />
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="hero p-12">
         <div className="card lg:card-side border border-[#2a2a2a] ">
@@ -58,9 +57,17 @@ const Alert = () => {
               className="p-6"
             />
           </figure>
-          <div className="card-body">
-            <h2 className="card-title">New album is released!</h2>
-            <p>Click the button to listen on Spotiwhy app.</p>
+          <div className="card-body space-y-4">
+            <h2 className="card-title text-center items-center justify-center">
+              New album is released!
+            </h2>
+            <p className="text-center items-center justify-center">
+              AUTHOR PLACEHOLDER{' '}
+            </p>
+
+            {/* music timeline to show how long the song is */}
+            <progress className="progress" value="100" max="100"></progress>
+
             <div className="card-actions justify-between">
               <button className="btn btn-primary">
                 <Rewind />
