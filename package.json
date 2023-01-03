@@ -20,6 +20,7 @@
     "next": "latest",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hot-toast": "^2.4.0",
     "react-lottie-player": "^1.5.4",
     "react-three-fiber": "^6.0.13",
     "react-wrap-balancer": "^0.2.4",

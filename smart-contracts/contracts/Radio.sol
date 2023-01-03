@@ -31,10 +31,29 @@ contract Radio is ReentrancyGuard {
         address seller,
         address owner
     );
+    event NFTDeleted(
+        address nftContract,
+        uint256 tokenId,
+        address seller,
+        address owner
+    );
 
     constructor() {
-        // set marketOwner to "0x944aFe2AF5C3d5637F1F3cDB4a130f272DE73420"
-        _marketOwner = payable(0x944aFe2AF5C3d5637F1F3cDB4a130f272DE73420);
+        _marketOwner = payable(msg.sender);
+    }
+
+    function deleteNft(uint256 _tokenId) public nonReentrant {
+        // Ensure that the NFT exists and is listed
+        NFT storage nft = _idToNFT[_tokenId];
+        require(nft.listed, "NFT is not listed");
+
+        // Ensure that the seller of the NFT is the one calling this function
+        require(nft.seller == msg.sender, "Only the seller can delete the NFT");
+
+        // Remove the NFT from the marketplace
+        delete _idToNFT[_tokenId];
+
+        emit NFTDeleted(nft.nftContract, nft.tokenId, nft.seller, nft.owner);
     }
 
     // List the NFT on the marketplace

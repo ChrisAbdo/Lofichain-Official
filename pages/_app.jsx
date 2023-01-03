@@ -4,6 +4,8 @@ import { ChainId, ThirdwebProvider } from '@thirdweb-dev/react';
 
 import Navbar from '../components/Navbar';
 
+import { Toaster } from 'react-hot-toast';
+
 const activeChainId = ChainId.Goerli;
 
 function MyApp({ Component, pageProps }) {
@@ -13,6 +15,7 @@ function MyApp({ Component, pageProps }) {
         <div className="bg-black">
           <Navbar />
           <Component {...pageProps} />
+          <Toaster />
         </div>
       </ThirdwebProvider>
     </>
