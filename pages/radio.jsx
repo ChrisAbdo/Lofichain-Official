@@ -26,7 +26,6 @@ const RadioPage = memo(() => {
   }, [account]);
 
   async function loadSongs() {
-    // changed function name and parameter
     const web3 = new Web3(window.ethereum);
 
     const networkId = await web3.eth.net.getId();
@@ -37,12 +36,20 @@ const RadioPage = memo(() => {
       Radio.networks[networkId].address
     );
     const listings = await radioContract.methods.getListedNfts().call();
+
+    // If there are no listed NFTs, set the nft state to an empty object and return
+    if (listings.length === 0) {
+      setNft({});
+      return;
+    }
+
     let selectedListing;
     do {
       // Select a random listed NFT
       const randomIndex = Math.floor(Math.random() * listings.length);
       selectedListing = listings[randomIndex];
-    } while (selectedListing.tokenId === lastPlayedNft); // updated to use lastPlayedNft instead of lastPlayed
+    } while (selectedListing.tokenId === lastPlayedNft);
+
     // Retrieve metadata for the selected NFT
     try {
       const NFTContract = new web3.eth.Contract(
@@ -60,9 +67,9 @@ const RadioPage = memo(() => {
         name: meta.data.name,
         coverImage: meta.data.coverImage,
       };
-      setLastPlayedNft(nft); // updated to set lastPlayedNft to the current NFT
-      setNft(nft); // changed nfts to nft
-      setAudio(new Audio(nft.image)); // set audio element with source from nft.image
+      setLastPlayedNft(nft);
+      setNft(nft);
+      setAudio(new Audio(nft.image));
     } catch (err) {
       console.log(err);
     }

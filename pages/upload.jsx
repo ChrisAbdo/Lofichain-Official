@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import Web3 from 'web3';
 import Radio from '../smart-contracts/build/contracts/Radio.json';
 import NFT from '../smart-contracts/build/contracts/NFT.json';
+import toast from 'react-hot-toast';
 
 const upload = () => {
   const [account, setAccount] = useState('');
@@ -116,16 +117,17 @@ const upload = () => {
   }
 
   async function listNFTForSale() {
-    // const notification = toast.loading(
-    //   'Make sure to confirm both transactions!',
-    //   {
-    //     style: {
-    //       border: '2px solid #000',
-    //       // make bold
-    //       fontWeight: 'bold',
-    //     },
-    //   }
-    // );
+    const notification = toast.loading(
+      'Make sure to confirm both transactions!',
+      {
+        style: {
+          border: '1px solid #fff',
+          backgroundColor: '#2a2a2a',
+          fontWeight: 'bold',
+          color: '#fff',
+        },
+      }
+    );
 
     try {
       const web3 = new Web3(window.ethereum);
@@ -158,12 +160,15 @@ const upload = () => {
             .on('receipt', function () {
               console.log('listed');
 
-              // toast.success('NFT listed', {
-              //   id: notification,
-              //   style: {
-              //     border: '2px solid #000',
-              //   },
-              // });
+              toast.success('NFT listed', {
+                id: notification,
+                style: {
+                  border: '1px solid #fff',
+                  backgroundColor: '#2a2a2a',
+                  fontWeight: 'bold',
+                  color: '#fff',
+                },
+              });
 
               setLoading(false);
               // wait 2 seconds, then reload the page
@@ -174,7 +179,15 @@ const upload = () => {
         });
     } catch (error) {
       console.log(error);
-      // toast.error('Error creating stem', { id: notification });
+      toast.error('Error creating stem', {
+        id: notification,
+        style: {
+          border: '1px solid #fff',
+          backgroundColor: '#2a2a2a',
+          fontWeight: 'bold',
+          color: '#fff',
+        },
+      });
     }
   }
 

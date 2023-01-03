@@ -128,12 +128,46 @@ const CreatorDashboard = () => {
               </div>
 
               <div className="p-4 space-y-2">
-                <button
+                {/* <button
                   className="bg-[#2a2a2a] text-red-500 font-bold py-2 px-4 rounded animate-pulse "
                   onClick={() => deleteNFT(nft)}
                 >
                   Delete
+                </button> */}
+                <label
+                  htmlFor={`my-modal-${i}`}
+                  className="bg-[#2a2a2a] text-red-500 font-bold py-2 px-4 rounded btn uppercase border border-[#3a3a3a]"
+                >
+                  Delete
+                </label>
+              </div>
+            </div>
+            <input
+              type="checkbox"
+              id={`my-modal-${i}`}
+              className="modal-toggle"
+            />
+            <div className="modal modal-bottom sm:modal-middle">
+              <div className="modal-box">
+                <h3 className="font-bold text-lg">
+                  Are you sure you want to delete "{nft.name}"?
+                </h3>
+                <p className="py-4">
+                  Please note that you will have to pay the gas fee to delete
+                  the beat and there is no way to undo this action for now.
+                </p>
+                <button
+                  className="bg-[#2a2a2a] text-red-500 font-bold py-2 px-4 rounded animate-pulse w-full"
+                  onClick={() => deleteNFT(nft)}
+                  disabled
+                >
+                  Delete | Coming Soon
                 </button>
+                <div className="modal-action">
+                  <label htmlFor={`my-modal-${i}`} className="btn">
+                    cancel
+                  </label>
+                </div>
               </div>
             </div>
           </>
