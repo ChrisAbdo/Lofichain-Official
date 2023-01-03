@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, memo } from 'react';
 import axios from 'axios';
 
 import Web3 from 'web3';
@@ -13,12 +13,13 @@ import Forward from '../icons/Forward';
 import Eye from '../icons/Eye';
 import Eyeslash from '../icons/Eyeslash';
 
-const Alert = () => {
+const RadioPage = memo(() => {
   const [isOpen, setIsOpen] = useState(true);
   const [account, setAccount] = useState('');
   const [audio, setAudio] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [nft, setNft] = useState([]);
+  const [lastPlayed, setLastPlayed] = useState(null);
 
   useEffect(() => {
     loadSongs();
@@ -50,9 +51,12 @@ const Alert = () => {
       Radio.networks[networkId].address
     );
     const listings = await radioContract.methods.getListedNfts().call();
-    // Select a random listed NFT
-    const randomIndex = Math.floor(Math.random() * listings.length);
-    const selectedListing = listings[randomIndex];
+    let selectedListing;
+    do {
+      // Select a random listed NFT
+      const randomIndex = Math.floor(Math.random() * listings.length);
+      selectedListing = listings[randomIndex];
+    } while (selectedListing.tokenId === lastPlayed);
     // Retrieve metadata for the selected NFT
     try {
       const NFTContract = new web3.eth.Contract(
@@ -66,12 +70,13 @@ const Alert = () => {
       const nft = {
         tokenId: selectedListing.tokenId,
         seller: selectedListing.seller,
-        owner: selectedListing.buyer,
+
         image: meta.data.image,
         name: meta.data.name,
-        description: meta.data.description,
+
         coverImage: meta.data.coverImage,
       };
+      setLastPlayed(selectedListing.tokenId);
       setNft(nft); // changed nfts to nft
       setAudio(new Audio(nft.image)); // set audio element with source from nft.image
     } catch (err) {
@@ -80,8 +85,8 @@ const Alert = () => {
   }
 
   const playAudio = () => {
-    // added function to play audio
-    if (audio) {
+    // if the audio is not playing, play it and start the progress bar
+    if (!isPlaying) {
       audio.play();
 
       const progressBar = document.getElementById('progress-bar');
@@ -89,10 +94,10 @@ const Alert = () => {
       // Set the max value of the progress bar to the length of the song in seconds
       progressBar.max = audio.duration;
 
-      // Update the value of the progress bar at regular intervals
-      setInterval(() => {
+      // Update the value of the progress bar when the current time is updated
+      audio.ontimeupdate = () => {
         progressBar.value = audio.currentTime;
-      }, 1000); // update every 1 second
+      };
 
       setIsPlaying(true);
     }
@@ -150,7 +155,6 @@ const Alert = () => {
           </div>
         </div>
       )}
-
       <div className="hero p-12">
         {nft && (
           <div className="card lg:card-side border border-[#2a2a2a] md:w-5/6">
@@ -222,6 +226,6 @@ const Alert = () => {
       </div>
     </div>
   );
-};
+});
 
-export default Alert;
+export default RadioPage;
