@@ -1,12 +1,12 @@
 import Link from 'next/link';
-import { useEffect, useState, memo } from 'react';
+import { useEffect, useState, memo, useRef } from 'react';
 import axios from 'axios';
 
 import Web3 from 'web3';
 import Radio from '../smart-contracts/build/contracts/Radio.json';
 import NFT from '../smart-contracts/build/contracts/NFT.json';
 
-import { motion } from 'framer-motion';
+import { motion, useAnimation } from 'framer-motion';
 
 import Rewind from '../icons/Rewind';
 import Forward from '../icons/Forward';
@@ -20,6 +20,9 @@ const RadioPage = memo(() => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [nft, setNft] = useState([]);
   const [lastPlayed, setLastPlayed] = useState(null);
+  const [lastPlayedNft, setLastPlayedNft] = useState(null); // added variable to store the most recent NFT played
+
+  const progressAnimation = useAnimation();
 
   useEffect(() => {
     loadSongs();
@@ -56,7 +59,7 @@ const RadioPage = memo(() => {
       // Select a random listed NFT
       const randomIndex = Math.floor(Math.random() * listings.length);
       selectedListing = listings[randomIndex];
-    } while (selectedListing.tokenId === lastPlayed);
+    } while (selectedListing.tokenId === lastPlayedNft); // updated to use lastPlayedNft instead of lastPlayed
     // Retrieve metadata for the selected NFT
     try {
       const NFTContract = new web3.eth.Contract(
@@ -76,7 +79,7 @@ const RadioPage = memo(() => {
 
         coverImage: meta.data.coverImage,
       };
-      setLastPlayed(selectedListing.tokenId);
+      setLastPlayedNft(nft); // updated to set lastPlayedNft to the current NFT
       setNft(nft); // changed nfts to nft
       setAudio(new Audio(nft.image)); // set audio element with source from nft.image
     } catch (err) {
@@ -85,26 +88,22 @@ const RadioPage = memo(() => {
   }
 
   const playAudio = () => {
+    const progressBar = document.getElementById('progress-bar');
     // if the audio is not playing, play it and start the progress bar
     if (!isPlaying) {
       audio.play();
-
-      const progressBar = document.getElementById('progress-bar');
-
-      // Set the max value of the progress bar to the length of the song in seconds
+      // Add the animate-pulse class to start the animation
       progressBar.max = audio.duration;
-
-      // Update the value of the progress bar when the current time is updated
       audio.ontimeupdate = () => {
         progressBar.value = audio.currentTime;
       };
 
+      progressBar.classList.add('animate-pulse');
       setIsPlaying(true);
-    }
-
-    // if the audio is playing, pause it
-    if (isPlaying) {
+    } else {
       audio.pause();
+      // Remove the animate-pulse class to stop the animation
+      progressBar.classList.remove('animate-pulse');
       setIsPlaying(false);
     }
   };
@@ -119,6 +118,11 @@ const RadioPage = memo(() => {
 
     // Load the next song
     loadSongs();
+  };
+
+  const rewindAudio = () => {
+    audio.currentTime = 0;
+    audio.play();
   };
 
   return (
@@ -178,7 +182,7 @@ const RadioPage = memo(() => {
               ></progress>
 
               <div className="card-actions justify-between">
-                <button onClick={playNextSong} className="btn btn-primary">
+                <button onClick={rewindAudio} className="btn btn-primary">
                   <Rewind />
                 </button>
 
