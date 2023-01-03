@@ -6,7 +6,7 @@ import Web3 from 'web3';
 import Radio from '../smart-contracts/build/contracts/Radio.json';
 import NFT from '../smart-contracts/build/contracts/NFT.json';
 
-import { motion, useAnimation } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 import Rewind from '../icons/Rewind';
 import Forward from '../icons/Forward';
@@ -19,28 +19,11 @@ const RadioPage = memo(() => {
   const [audio, setAudio] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [nft, setNft] = useState([]);
-  const [lastPlayed, setLastPlayed] = useState(null);
   const [lastPlayedNft, setLastPlayedNft] = useState(null); // added variable to store the most recent NFT played
-
-  const progressAnimation = useAnimation();
 
   useEffect(() => {
     loadSongs();
   }, [account]);
-
-  const ipfsClient = require('ipfs-http-client');
-  const projectId = '2FdliMGfWHQCzVYTtFlGQsknZvb';
-  const projectSecret = '2274a79139ff6fdb2f016d12f713dca1';
-  const auth =
-    'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
-  const client = ipfsClient.create({
-    host: 'ipfs.infura.io',
-    port: 5001,
-    protocol: 'https',
-    headers: {
-      authorization: auth,
-    },
-  });
 
   async function loadSongs() {
     // changed function name and parameter
@@ -73,10 +56,8 @@ const RadioPage = memo(() => {
       const nft = {
         tokenId: selectedListing.tokenId,
         seller: selectedListing.seller,
-
         image: meta.data.image,
         name: meta.data.name,
-
         coverImage: meta.data.coverImage,
       };
       setLastPlayedNft(nft); // updated to set lastPlayedNft to the current NFT
@@ -109,14 +90,10 @@ const RadioPage = memo(() => {
   };
 
   const playNextSong = () => {
-    // Stop the current audio
     audio.pause();
-    audio.currentTime = 0;
-
-    // Reset the "isPlaying" state
     setIsPlaying(false);
-
-    // Load the next song
+    // reset the audio to the beginning
+    audio.currentTime = 0;
     loadSongs();
   };
 
@@ -163,7 +140,7 @@ const RadioPage = memo(() => {
         {nft && (
           <div className="card lg:card-side border border-[#2a2a2a] md:w-5/6">
             <figure>
-              <img src={nft.coverImage} alt="." className=" w-fit" />
+              <img src={nft.coverImage} alt={nft.name} />
             </figure>
             <div className="card-body space-y-4">
               <h2 className="card-title text-center items-center justify-center text-3xl">
