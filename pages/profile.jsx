@@ -55,23 +55,16 @@ const CreatorDashboard = () => {
     setLoadingState('loaded');
   }
   return (
-    <div>
-      <div className="flex justify-center items-center mb-4 mt-4">
+    <div className="flex justify-center items-center mb-4 mt-4">
+      <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-4 pt-4  w-1/2  py-6 ">
         <div className="text-4xl font-bold text-center">My Beats</div>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-4 pt-4  w-full  py-6 px-6">
         {nfts.map((nft, i) => (
           <div
             key={i}
-            className="p-6 border-[2px] border-[#2a2a2a] shadow overflow-hidden hover:scale-[1.03] transform transition duration-500 ease-in-out mb-4"
+            className="alert1 p-6 border-[2px] border-[#2a2a2a] shadow overflow-hidden hover:scale-[1.03] transform transition duration-500 ease-in-out mb-4"
           >
             <figure className="flex items-center justify-center  w-full">
-              <audio
-                controls
-                controlsList="nodownload"
-                className="w-full border-b-[2px] border-black"
-              >
+              <audio controls className="w-full">
                 <source src={nft.image} type="audio/mpeg" />
               </audio>
             </figure>
