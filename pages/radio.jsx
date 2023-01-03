@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 import axios from 'axios';
 
 import Web3 from 'web3';
@@ -14,27 +13,14 @@ import Forward from '../icons/Forward';
 import Eye from '../icons/Eye';
 import Eyeslash from '../icons/Eyeslash';
 
-import Balancer from 'react-wrap-balancer';
-
 const Alert = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [account, setAccount] = useState('');
   const [audio, setAudio] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [web3, setWeb3] = useState(null);
-  const [nfts, setNfts] = useState([]);
   const [nft, setNft] = useState([]);
-  const [loadingState, setLoadingState] = useState('not-loaded');
-  const [fileUrl, setFileUrl] = useState(null);
-  const [formInput, updateFormInput] = useState({
-    name: '',
-    description: '',
-  });
-  const router = useRouter();
 
   useEffect(() => {
-    loadBlockchainData();
     loadSongs();
   }, [account]);
 
@@ -51,41 +37,6 @@ const Alert = () => {
       authorization: auth,
     },
   });
-
-  const Web3Handler = async () => {
-    const notification = toast.loading('Connecting account...');
-    try {
-      const account = await window.ethereum.request({
-        method: 'eth_requestAccounts',
-      });
-
-      const web3 = new Web3(window.ethereum);
-      setAccount(account[0]);
-      setWeb3(web3);
-      toast.success('Account connected', {
-        id: notification,
-      });
-      // wait 2 seconds and reload the page
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
-    } catch (err) {
-      console.log(err);
-      toast.error('Account not connected', {
-        id: notification,
-      });
-    }
-  };
-
-  const loadBlockchainData = async () => {
-    try {
-      const web3 = new Web3(window.ethereum);
-      const accounts = await web3.eth.getAccounts();
-      setAccount(accounts[0]);
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   async function loadSongs() {
     // changed function name and parameter
@@ -132,9 +83,18 @@ const Alert = () => {
     // added function to play audio
     if (audio) {
       audio.play();
-      setIsPlaying(true);
 
-      // added wave visualizer
+      const progressBar = document.getElementById('progress-bar');
+
+      // Set the max value of the progress bar to the length of the song in seconds
+      progressBar.max = audio.duration;
+
+      // Update the value of the progress bar at regular intervals
+      setInterval(() => {
+        progressBar.value = audio.currentTime;
+      }, 1000); // update every 1 second
+
+      setIsPlaying(true);
     }
 
     // if the audio is playing, pause it
@@ -206,7 +166,12 @@ const Alert = () => {
               </p>
 
               {/* music timeline to show how long the song is */}
-              <progress className="progress" value="100" max="100"></progress>
+              <progress
+                id="progress-bar"
+                className="progress"
+                value="100"
+                max="100"
+              ></progress>
 
               <div className="card-actions justify-between">
                 <button onClick={playNextSong} className="btn btn-primary">
