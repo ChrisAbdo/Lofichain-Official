@@ -8,9 +8,7 @@ import NFT from '../smart-contracts/build/contracts/NFT.json';
 const upload = () => {
   const [account, setAccount] = useState('');
   const [loading, setLoading] = useState(true);
-  const [web3, setWeb3] = useState(null);
-  const [nfts, setNfts] = useState([]);
-  const [loadingState, setLoadingState] = useState('not-loaded');
+  const [disabled, setDisabled] = useState(true);
   const [fileUrl, setFileUrl] = useState(null);
   const [coverImage, setCoverImage] = useState(null);
   const [formInput, updateFormInput] = useState({
@@ -21,7 +19,13 @@ const upload = () => {
 
   useEffect(() => {
     loadBlockchainData();
-  }, [account]);
+
+    if (formInput.name && formInput.coverImage && fileUrl) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [account, formInput, fileUrl]);
 
   const ipfsClient = require('ipfs-http-client');
   const projectId = '2FdliMGfWHQCzVYTtFlGQsknZvb';
@@ -80,6 +84,14 @@ const upload = () => {
       console.log('Error uploading file: ', error);
     }
   }
+
+  const removeCoverImage = () => {
+    setCoverImage(null);
+    updateFormInput({
+      ...formInput,
+      coverImage: '',
+    }); // update form input with empty cover image URL
+  };
 
   async function uploadToIPFS() {
     const { name, coverImage } = formInput;
@@ -169,9 +181,10 @@ const upload = () => {
   return (
     <div className="flex flex-col items-center justify-center w-full h-full p-12">
       <div className="card w-96 shadow-xl border border-[#2a2a2a]">
-        <h1 className="text-3xl font-bold text-center">Upload a Beat</h1>
-
-        <figure className="px-10 pt-10">
+        <figure className="px-10 pt-5">
+          <h1 className="text-3xl font-bold text-center">Upload a Beat</h1>
+        </figure>
+        <div className="card-body items-center text-center">
           <div className="form-control w-full max-w-xs">
             <label className="label">
               <span className="label-text">Pick a beat</span>
@@ -184,15 +197,13 @@ const upload = () => {
               onChange={onChange}
             />
           </div>
-        </figure>
-        <div className="card-body items-center text-center">
           <div className="form-control w-full max-w-xs">
             <label className="label">
               <span className="label-text">Enter a title for your beat</span>
             </label>
             <input
               type="text"
-              placeholder="Type here"
+              placeholder="Title here"
               className="input input-bordered w-full max-w-xs"
               onChange={(e) =>
                 updateFormInput({ ...formInput, name: e.target.value })
@@ -204,23 +215,30 @@ const upload = () => {
             <div className="form-control w-full max-w-xs">
               <label className="label">
                 <span className="label-text">Choose a cover image</span>
-                <span className="label-text-alt">400x400 Recommended</span>
+                <span className="label-text-alt">
+                  Square images recommended
+                </span>
               </label>
-              <input
-                type="text"
-                placeholder="Stem Title"
-                className="input input-bordered w-full"
-                value={coverImage}
-                // onChange={(e) =>
-                //   updateFormInput({ ...formInput, coverImage: coverImage })
-                // }
-              />
+              <label className="input-group w-full">
+                <input
+                  type="text"
+                  placeholder="."
+                  className="input input-bordered w-full"
+                  value={coverImage}
+                  disabled
+                />
+                <span onClick={removeCoverImage} className="btn">
+                  X
+                </span>
+              </label>
             </div>
           ) : (
             <div className="form-control w-full max-w-xs">
               <label className="label">
                 <span className="label-text">Choose a cover image</span>
-                <span className="label-text-alt">400x400 Recommended</span>
+                <span className="label-text-alt">
+                  Square images recommended
+                </span>
               </label>
               <input
                 onChange={createCoverImage}
@@ -230,9 +248,13 @@ const upload = () => {
             </div>
           )}
 
-          <div className="card-actions">
-            <button onClick={listNFTForSale} className="btn btn-primary">
-              Buy Now
+          <div className="card-actions w-full mt-4">
+            <button
+              disabled={disabled}
+              onClick={listNFTForSale}
+              className="btn btn-outline w-full"
+            >
+              Upload
             </button>
           </div>
         </div>
