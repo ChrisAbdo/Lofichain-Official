@@ -20,6 +20,7 @@ const RadioPage = memo(() => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [nft, setNft] = useState([]);
   const [lastPlayedNft, setLastPlayedNft] = useState(null); // added variable to store the most recent NFT played
+  const [currentTime, setCurrentTime] = useState(0);
 
   useEffect(() => {
     loadSongs();
@@ -27,30 +28,25 @@ const RadioPage = memo(() => {
 
   async function loadSongs() {
     const web3 = new Web3(window.ethereum);
-
     const networkId = await web3.eth.net.getId();
-
-    // Get all listed NFTs
     const radioContract = new web3.eth.Contract(
       Radio.abi,
       Radio.networks[networkId].address
     );
     const listings = await radioContract.methods.getListedNfts().call();
 
-    // If there are no listed NFTs, set the nft state to an empty object and return
     if (listings.length === 0) {
       setNft({});
       return;
     }
 
+    // Select a random listed NFT that is different from the last played NFT
     let selectedListing;
     do {
-      // Select a random listed NFT
       const randomIndex = Math.floor(Math.random() * listings.length);
       selectedListing = listings[randomIndex];
-    } while (selectedListing.tokenId === lastPlayedNft); // add this line to choose a new song if it is the same as the previously played song
+    } while (selectedListing.tokenId === lastPlayedNft);
 
-    // Retrieve metadata for the selected NFT
     try {
       const NFTContract = new web3.eth.Contract(
         NFT.abi,
@@ -67,7 +63,7 @@ const RadioPage = memo(() => {
         name: meta.data.name,
         coverImage: meta.data.coverImage,
       };
-      setLastPlayedNft(nft); // update the last played NFT
+      setLastPlayedNft(nft);
       setNft(nft);
       setAudio(new Audio(nft.image));
     } catch (err) {
@@ -162,6 +158,13 @@ const RadioPage = memo(() => {
               </p>
 
               {/* music timeline to show how long the song is */}
+              <label id="song-length">
+                {audio && audio.duration
+                  ? Math.floor(audio.duration / 60) +
+                    ':' +
+                    Math.floor(audio.duration % 60)
+                  : '0:00'}{' '}
+              </label>
               <progress
                 id="progress-bar"
                 className="progress"
