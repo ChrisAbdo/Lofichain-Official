@@ -153,12 +153,13 @@ const RadioPage = memo(() => {
               <h2 className="card-title text-center items-center justify-center text-3xl">
                 {nft.name}
               </h2>
-              <p className="text-center items-center justify-center truncate max-w-[200px] text-[#555555]">
+              <p className="mx-auto truncate max-w-[300px] text-[#555555]">
                 {nft.seller}
               </p>
 
               {/* music timeline to show how long the song is */}
-              <label id="song-length">
+              <label id="song-length" className="flex justify-between">
+                <span id="current-time">0:00</span>
                 {audio && audio.duration
                   ? Math.floor(audio.duration / 60) +
                     ':' +
