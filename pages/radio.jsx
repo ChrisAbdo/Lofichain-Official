@@ -20,7 +20,16 @@ const RadioPage = memo(() => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [nft, setNft] = useState([]);
   const [lastPlayedNft, setLastPlayedNft] = useState(null); // added variable to store the most recent NFT played
-  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+
+  useEffect(() => {
+    if (audio) {
+      // When the audio file finishes loading, set the duration
+      audio.onloadedmetadata = () => {
+        setDuration(audio.duration);
+      };
+    }
+  }, [audio]);
 
   useEffect(() => {
     loadSongs();
@@ -161,10 +170,8 @@ const RadioPage = memo(() => {
               <label id="song-length" className="flex justify-between">
                 <span id="current-time">0:00</span>
                 {audio && audio.duration
-                  ? Math.floor(audio.duration / 60) +
-                    ':' +
-                    Math.floor(audio.duration % 60)
-                  : '0:00'}{' '}
+                  ? Math.floor(duration / 60) + ':' + Math.floor(duration % 60)
+                  : '0:00'}
               </label>
               <progress
                 id="progress-bar"
