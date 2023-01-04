@@ -62,6 +62,14 @@ const upload = () => {
       const url = `https://ipfs.io/ipfs/${added.path}`;
       console.log(url);
       setFileUrl(url);
+      toast.success('The file has been successfully uploaded to IPFS', {
+        style: {
+          border: '1px solid #fff',
+          backgroundColor: '#2a2a2a',
+          fontWeight: 'bold',
+          color: '#fff',
+        },
+      });
     } catch (error) {
       console.log('Error uploading file: ', error);
     }
@@ -109,6 +117,7 @@ const upload = () => {
         const added = await client.add(data);
         const url = `https://ipfs.io/ipfs/${added.path}`;
         // after metadata is uploaded to IPFS, return the URL to use it in the transaction
+
         return url;
       } catch (error) {
         console.log('Error uploading file: ', error);

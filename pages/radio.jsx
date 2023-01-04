@@ -48,7 +48,7 @@ const RadioPage = memo(() => {
       // Select a random listed NFT
       const randomIndex = Math.floor(Math.random() * listings.length);
       selectedListing = listings[randomIndex];
-    } while (selectedListing.tokenId === lastPlayedNft);
+    } while (selectedListing.tokenId === lastPlayedNft); // add this line to choose a new song if it is the same as the previously played song
 
     // Retrieve metadata for the selected NFT
     try {
@@ -67,7 +67,7 @@ const RadioPage = memo(() => {
         name: meta.data.name,
         coverImage: meta.data.coverImage,
       };
-      setLastPlayedNft(nft);
+      setLastPlayedNft(nft); // update the last played NFT
       setNft(nft);
       setAudio(new Audio(nft.image));
     } catch (err) {
@@ -97,11 +97,11 @@ const RadioPage = memo(() => {
   };
 
   const playNextSong = () => {
+    setLastPlayedNft(nft); // update the last played NFT
+    audio.currentTime = 0;
     audio.pause();
     setIsPlaying(false);
-    // reset the audio to the beginning
-    audio.currentTime = 0;
-    loadSongs();
+    loadSongs(); // load the new song
   };
 
   const rewindAudio = () => {
@@ -143,11 +143,15 @@ const RadioPage = memo(() => {
           </div>
         </div>
       )}
-      <div className="hero p-12">
+      <div className="hero mt-12">
         {nft && (
           <div className="card lg:card-side border border-[#2a2a2a] md:w-5/6">
             <figure>
-              <img src={nft.coverImage} alt={nft.name} />
+              <img
+                src={nft.coverImage}
+                alt={nft.name}
+                style={{ width: '400px', height: '400px' }}
+              />
             </figure>
             <div className="card-body space-y-4">
               <h2 className="card-title text-center items-center justify-center text-3xl">
